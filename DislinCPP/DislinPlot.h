@@ -63,9 +63,8 @@
  *   plt.axes_bg(r, g, b)           // axes background colour, RGB in [0, 1]
  *   plt.symbol_size(sz)            // scatter symbol size in plot units (default 45)
  *   plt.title_gap(offset)          // vertical distance between title and axis box
- *                                  //   negative → title moves up (more space)
- *                                  //   positive → title moves down (less space)
- *                                  //   units: 1/100 cm,  e.g. -300 = -3 cm
+ *                                  //   positive → title moves up (more space)
+ *                                  //   negative → title moves down (less space)
  *
  * ── Colors ─────
  *
@@ -115,6 +114,12 @@
  *
  *   plt.show();                    // draws all 4 panels in one window
  */
+
+// disable 4996
+#ifdef _MSC_VER
+#    pragma warning(disable : 4996)
+#endif // _MSC_VER
+
 
 #include <algorithm>
 #include <cmath>
@@ -750,7 +755,11 @@ private:
                     break;
                 }
             }
-            hasPie ? drawPiePanel(p) : drawXYPanel(p, 550, 1600, 2200, 1200);
+            constexpr int marginX = 550;
+            constexpr int marginY = 550;
+            int nw, nh;
+            g_->getpag(&nw, &nh);
+            hasPie ? drawPiePanel(p) : drawXYPanel(p, marginX, nh - marginY, nw - marginX, nh - static_cast<int>(1.4 * marginY));
         }
         else
         {

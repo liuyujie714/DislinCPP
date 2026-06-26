@@ -45,8 +45,8 @@ void example_line()
     plt.title("Sine and Cosine");
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
-    plt.show();
-    plt.savefig("line.pdf");
+    // plt.show();
+    plt.savefig("line.svg");
 }
 
 // ©¤©¤ 2. Scatter plot ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
@@ -71,8 +71,8 @@ void example_scatter()
     plt.title("Scatter Two Clusters");
     plt.grid("on");
     plt.symbol_size(20);
-    plt.show();
-    plt.savefig("scatter.png");
+    // plt.show();
+    plt.savefig("scatter.svg");
 }
 
 // ©¤©¤ 3. Bar chart ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
@@ -89,7 +89,8 @@ void example_bar()
     plt.title("Monthly Revenue");
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
-    plt.show();
+    // plt.show();
+    plt.savefig("bar.svg");
 }
 
 // ©¤©¤ 4. Grouped bar chart ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
@@ -109,7 +110,8 @@ void example_grouped_bar()
     plt.ylim(0, 5);
     plt.title("Grouped Bar Chart");
     plt.grid("on");
-    plt.show();
+    // plt.show();
+    plt.savefig("groupbar.svg");
 }
 
 // ©¤©¤ 5. Pie chart ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
@@ -122,8 +124,8 @@ void example_pie()
     plt.figure("Pie", "cons");
     plt.pie(slices, labels);
     plt.title("Language Popularity");
-    plt.show();
-    // plt.savefig("pie.pdf");
+    // plt.show();
+    plt.savefig("pie.svg");
 }
 
 // ©¤©¤ 6. Histogram ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
@@ -146,7 +148,8 @@ void example_hist()
     plt.title("Histogram - Normal Distribution");
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
-    plt.show();
+    // plt.show();
+    plt.savefig("hist.svg");
 }
 
 // ©¤©¤ 7. Annotations ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
@@ -168,7 +171,8 @@ void example_annotated()
     plt.ylabel("f(x)");
     plt.title("Damped Sine with Annotations");
     plt.grid("on");
-    plt.show();
+    // plt.show();
+    plt.savefig("annotated.svg");
 }
 
 // ©¤©¤ 8. Mixed line + scatter ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
@@ -192,32 +196,11 @@ void example_mixed()
     plt.title("Linear Fit vs Measurements");
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
-    plt.show();
+    // plt.show();
+    plt.savefig("mixed.svg");
 }
 
-// ©¤©¤ 9. Save to PNG file ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
-void example_savefig()
-{
-    // x goes 0..4¦Ð, y = sinc-like
-    const int           N = 300;
-    auto                x = linspace(0.1, 4 * M_PI, N); // start at 0.1 to avoid /0
-    std::vector<double> y(N);
-    for (int i = 0; i < N; i++)
-        y[i] = std::sin(x[i]) / x[i];
-
-    DislinPlot plt;
-    plt.figure("Sinc", "png", "da4l");
-    plt.plot(x, y, "purple", "sin(x)/x");
-    plt.xlabel("x");
-    plt.ylabel("sin(x)/x");
-    plt.title("Saved to PNG");
-    plt.grid("on");
-    plt.axes_bg(0.98, 0.98, 0.98);
-    // Save to CWD ¡ª DISLIN writes relative to the working directory
-    plt.show();
-}
-
-// ©¤©¤ 10. Subplots 2¡Á2 ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
+// ©¤©¤ 9. Subplots 2¡Á2 ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
 void example_subplots()
 {
     auto                x = linspace(0, 2 * M_PI, 100);
@@ -266,8 +249,8 @@ void example_subplots()
     plt.ylabel("y4");
     plt.grid("on");
 
-    plt.show();
-    plt.savefig("subplots.pdf");
+    // plt.show();
+    plt.savefig("subplots.svg");
 }
 
 int main()
@@ -283,7 +266,6 @@ int main()
     example_hist();
     example_annotated();
     example_mixed();
-    example_savefig();
     example_subplots();
 
     return 0;
