@@ -4,14 +4,14 @@
 
 
 
-# 展示
+# 效果展示
 
-| ![](./pics/line.svg)     | ![](./pics/scatter.svg)   |
-| ------------------------ | ------------------------- |
-| ![](./pics/bar.svg)      | ![](./pics/pie.svg)       |
-| ![](./pics/hist.svg)     | ![](./pics/groupbar.svg)  |
-| ![](./pics/mixed.svg)    | ![](./pics/annotated.svg) |
-| ![](./pics/subplots.svg) |                           |
+| ![](./pics/line.svg "曲线图")       | ![](./pics/scatter.svg "散点图")      |
+| ----------------------------------- | ------------------------------------- |
+| ![](./pics/bar.svg "柱状图")        | ![](./pics/pie.svg "饼状图")          |
+| ![](./pics/hist.svg "直方图")       | ![](./pics/groupbar.svg "多组柱状图") |
+| ![](./pics/mixed.svg "散点+曲线图") | ![](./pics/annotated.svg "标注图")    |
+| ![](./pics/subplots.svg "多子图")   |                                       |
 
 
 
@@ -413,3 +413,4 @@ int main() {
 ```
 cpplink -a test
 ```
+
