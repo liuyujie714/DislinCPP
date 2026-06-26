@@ -71,7 +71,7 @@ plt.figure(win_title, output, page);
 | 参数         | 类型          | 默认值     | 说明                                                    |
 |------------|-------------|---------|-------------------------------------------------------|
 | `win_title` | `string`    | `"DislinPlot"` | 窗口标题栏显示的文字                                  |
-| `output`    | `string`    | `"cons"`       | 输出目标：`"cons"`（屏幕）、`"png"`、`"pdf"`、`"eps"`、`"svg"`、`"gif"` |
+| `output`    | `string`    | `"cons"`       | 输出目标：`"cons"`（屏幕）、`"png"`、`"pdf"`、`"eps"`、`"svg"`、`"emf"`等 |
 | `page`      | `string`    | `"da4l"`       | 页面尺寸：`"da4l"`（A4 横向）、`"da4p"`（A4 纵向）等  |
 
 **示例：**
@@ -133,15 +133,9 @@ plt.scatter(x_ptr, y_ptr, n, color, symbol, label);
 | `symbol` | `int`           | `21`   | DISLIN 符号索引                     |
 | `label`  | `string`        | `""`   | 图例标签                             |
 
-**常用符号索引：**
+**符号索引：**
 
-| 索引 | 外观         |
-|----|------------|
-| 0  | 点（·）      |
-| 1  | 加号（+）    |
-| 3  | 空心圆（○）  |
-| 4  | 叉号（×）    |
-| 21 | 实心圆（●）  |
+<img src="./pics/symb.png" title="符号" style="zoom:50%;" />
 
 **示例：**
 
@@ -392,7 +386,7 @@ int main() {
 
     // 左下
     plt.subplot(1, 0);
-    plt.title("x^2 * 0.1");       // 特殊字符用 ASCII 表示
+    plt.title("$x^2 * 0.1$");       // TeX instructions
     plt.plot(x, y_sq, "orange");
 
     // 右下

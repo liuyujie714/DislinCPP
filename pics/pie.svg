@@ -3,7 +3,7 @@
   "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created by DISLIN (http://www.dislin.de)
 Version: 11.5
-Date   : 26.06.2026 22:55:08
+Date   : 27.06.2026 03:45:10
 -->
 <svg width="853" height="603"
   xmlns="http://www.w3.org/2000/svg"
@@ -627,25 +627,25 @@ font-size="15" stroke="none" fill="#0000ff">
 <line x1="574.36" y1="488.32" x2="539.70" y2="522.98"/>
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
-font-size="21" stroke="none" fill="#000000">
-<text x="315.77" y="71.41">L</text>
-<text x="330.00" y="71.41">a</text>
-<text x="340.66" y="71.41">n</text>
-<text x="352.51" y="71.41">g</text>
-<text x="364.36" y="71.41">u</text>
-<text x="376.21" y="71.41">a</text>
-<text x="386.87" y="71.41">g</text>
-<text x="398.72" y="71.41">e</text>
-<text x="409.37" y="71.41"> </text>
-<text x="416.02" y="71.41">P</text>
-<text x="429.06" y="71.41">o</text>
-<text x="440.90" y="71.41">p</text>
-<text x="452.75" y="71.41">u</text>
-<text x="464.60" y="71.41">l</text>
-<text x="471.84" y="71.41">a</text>
-<text x="482.50" y="71.41">r</text>
-<text x="490.93" y="71.41">i</text>
-<text x="498.16" y="71.41">t</text>
-<text x="505.40" y="71.41">y</text>
+font-size="17" stroke="none" fill="#000000">
+<text x="335.85" y="37.00">L</text>
+<text x="347.23" y="37.00">a</text>
+<text x="355.76" y="37.00">n</text>
+<text x="365.24" y="37.00">g</text>
+<text x="374.72" y="37.00">u</text>
+<text x="384.20" y="37.00">a</text>
+<text x="392.72" y="37.00">g</text>
+<text x="402.20" y="37.00">e</text>
+<text x="410.73" y="37.00"> </text>
+<text x="416.04" y="37.00">P</text>
+<text x="426.47" y="37.00">o</text>
+<text x="435.95" y="37.00">p</text>
+<text x="445.43" y="37.00">u</text>
+<text x="454.91" y="37.00">l</text>
+<text x="460.70" y="37.00">a</text>
+<text x="469.23" y="37.00">r</text>
+<text x="475.97" y="37.00">i</text>
+<text x="481.76" y="37.00">t</text>
+<text x="487.55" y="37.00">y</text>
 </g>
 </svg>

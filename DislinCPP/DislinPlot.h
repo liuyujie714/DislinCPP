@@ -412,8 +412,9 @@ public:
                        ext.end(),
                        ext.begin(),
                        [](char c) { return (char)std::tolower((unsigned char)c); });
-        const std::vector<std::string> supported_fmts = {"png", "pdf", "eps", "svg", "gif", "tiff"};
-        std::string                    fmt            = "png";
+        const std::vector<std::string> supported_fmts = {
+            "png", "pdf", "eps", "svg", "gif", "tiff", "ps", "wmf", "emf", "ppm", "bmp"};
+        std::string fmt = "png";
         if (std::find(supported_fmts.cbegin(), supported_fmts.cend(), ext) != supported_fmts.cend())
         {
             fmt = ext;
@@ -716,8 +717,9 @@ private:
             g_->piegrf(legBuf_.data(), nleg > 0 ? 1 : 0, s.y.data(), n);
             if (!p.title.empty())
             {
-                g_->height(50);
-                g_->titlin(p.title.c_str(), 4);
+                g_->height(40);
+                g_->titlin(p.title.c_str(), 2);
+                g_->vkytit(p.titleGap);
                 g_->title();
             }
         }
@@ -737,6 +739,15 @@ private:
         }
         g_->disini();
         g_->errmod("ALL", "OFF");
+        g_->texmod("ON"); // TeX mode
+#ifdef _WIN32
+        // only for emf files and screen output
+        g_->winfnt("Arial Unicode MS");
+#else
+        // not working?
+        g_->x11fnt("-wenquanyi-wenquanyi bitmap song-medium-*-normal-", "-*-*-*-*-iso10646-1");
+#endif
+        g_->chacod("utf8"); // support Chinese
         g_->hwfont();
         if (fmt == "cons") { g_->wintit(win_title_.c_str()); }
         // g_->helves();
@@ -755,11 +766,16 @@ private:
                     break;
                 }
             }
-            constexpr int marginX = 550;
-            constexpr int marginY = 550;
-            int nw, nh;
+            constexpr int marginX = 450;
+            constexpr int marginY = 450;
+            int           nw, nh;
             g_->getpag(&nw, &nh);
-            hasPie ? drawPiePanel(p) : drawXYPanel(p, marginX, nh - marginY, nw - marginX, nh - static_cast<int>(1.4 * marginY));
+            hasPie ? drawPiePanel(p)
+                   : drawXYPanel(p,
+                                 marginX,                              // left X
+                                 nh - static_cast<int>(0.6 * marginY), // bottom Y
+                                 nw - static_cast<int>(1.4 * marginX),
+                                 nh - static_cast<int>(1.4 * marginY));
         }
         else
         {
