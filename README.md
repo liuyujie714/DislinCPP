@@ -1,8 +1,8 @@
-# DislinPlot 使用手册
+# DislinPlot 简介
 
-`DislinPlot` 是对 DISLIN 库的 matplotlib 风格 C++ 封装，提供折线图、散点图、柱状图、饼图、直方图及多子图布局等功能。**注意当前只支持英文字符显示**。
+虽然目前有很多用途广泛且功能强大的C++作图库，比如Qt Charts, Qwt，matplotlib-cpp等等，但往往**依赖繁琐且部署复杂，安装和编译配置较重**，对于那些只是想简单可视化数据方便查看的C++开发者而言完全没必要。而原始[Dislin](https://www.dislin.de/)库并没有对各种类型的图进行友好的封装，实际使用起来比较**散乱和不方便**，<u>因此开发一个简单易用的作图库还是有一定意义的</u>。
 
-
+`DislinPlot` 是对 DISLIN 库的 `matplotlib` 风格 C++ 封装（仅使用头文件），提供折线图、散点图、柱状图、饼图、直方图及多子图布局等基本功能。**注意当前只支持英文字符显示**。
 
 # 效果展示
 
@@ -408,7 +408,7 @@ int main() {
 
 ## 10. 编译链接说明
 
-根据 **Dislin** 官网要求（https://www.dislin.de/distributions.html）安装好库以后，写一个 `test.cpp` 程序，然后编译并运行 `test`：
+根据 **Dislin** [官网要求](https://www.dislin.de/distributions.html)安装好库以后，写一个 `test.cpp` 程序，然后编译并运行 `test`：
 
 ```
 cpplink -a test
