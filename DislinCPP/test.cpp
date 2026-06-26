@@ -43,7 +43,7 @@ void example_line()
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
     // plt.show();
-    plt.savefig("line.png");
+    plt.savefig("line.svg");
 }
 
 // ── 2. Scatter plot ───────────────────────────────────────────────────────────
@@ -69,7 +69,7 @@ void example_scatter()
     plt.grid("on");
     plt.symbol_size(20);
     // plt.show();
-    plt.savefig("scatter.png");
+    plt.savefig("scatter.svg");
     plt.savefig("scatter_chinese.emf");
 }
 
@@ -88,7 +88,7 @@ void example_bar()
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
     // plt.show();
-    plt.savefig("bar.png");
+    plt.savefig("bar.svg");
 }
 
 // ── 4. Grouped bar chart ──────────────────────────────────────────────────────
@@ -109,7 +109,7 @@ void example_grouped_bar()
     plt.title("Grouped Bar Chart");
     plt.grid("on");
     // plt.show();
-    plt.savefig("groupbar.png");
+    plt.savefig("groupbar.svg");
 }
 
 // ── 5. Pie chart ─────────────────────────────────────────────────────────────
@@ -124,7 +124,7 @@ void example_pie()
     plt.title("Language Popularity");
     plt.title_gap(20);
     // plt.show();
-    plt.savefig("pie.png");
+    plt.savefig("pie.svg");
 }
 
 // ── 6. Histogram ──────────────────────────────────────────────────────────────
@@ -148,7 +148,7 @@ void example_hist()
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
     // plt.show();
-    plt.savefig("hist.png");
+    plt.savefig("hist.svg");
 }
 
 // ── 7. Annotations ───────────────────────────────────────────────────────────
@@ -171,7 +171,7 @@ void example_annotated()
     plt.title("Damped Sine with Annotations");
     plt.grid("on");
     // plt.show();
-    plt.savefig("annotated.png");
+    plt.savefig("annotated.svg");
 }
 
 // ── 8. Mixed line + scatter ───────────────────────────────────────────────────
@@ -196,7 +196,7 @@ void example_mixed()
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
     // plt.show();
-    plt.savefig("mixed.png");
+    plt.savefig("mixed.svg");
 }
 
 // ── 9. Subplots 2×2 ─────────────────────────────────────────────────────────
@@ -249,7 +249,7 @@ void example_subplots()
     plt.grid("on");
 
     // plt.show();
-    plt.savefig("subplots.png");
+    plt.savefig("subplots.svg");
 }
 
 int main()
