@@ -82,10 +82,11 @@ void example_bar()
 
     DislinPlot plt;
     plt.figure("Bar Chart", "cons", "da4l");
-    plt.bar(x, y, "steelblue", "Monthly Sales");
+    plt.bar(x, y, "red", "Monthly Sales");
     plt.xlabel("Month");
     plt.ylabel("Revenue (k)");
     plt.title("Monthly Revenue");
+    plt.ylim(0., 7.);
     plt.grid("on");
     plt.axes_bg(0.97, 0.97, 0.97);
     // plt.show();
@@ -340,7 +341,7 @@ void examples_imshow()
                    2.0, // y range
                    "RAIN",
                    true);
-        plt.title("$Gaussian  exp(-(x^2+y^2))  [RAIN]$");
+        plt.title("Gaussian  exp(-$(x^2+y^2)$)  [RAIN]");
         plt.xlabel("X");
         plt.ylabel("Y");
         // plt.show();
