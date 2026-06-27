@@ -1,5 +1,3 @@
-#pragma once
-
 /**
  * ╔══════════════════════════════════════════════════════════════════════════╗
  * ║              DislinPlot.h  —  matplotlib-style C++ wrapper               ║
@@ -114,6 +112,8 @@
  *
  *   plt.show();                    // draws all 4 panels in one window
  */
+
+#pragma once
 
 // disable 4996
 #ifdef _MSC_VER
@@ -249,6 +249,12 @@ public:
         plot({x, x + n}, {y, y + n}, color, label);
     }
 
+    /* \breif Scatter plot
+     * \param x,y      Data points
+     * \param color    Color of the points
+     * \param symbol   Symbol to use for the points [0-23]
+     * \param label    Label for the legend
+     */
     void scatter(const std::vector<double>& x,
                  const std::vector<double>& y,
                  const std::string&         color  = "blue",
@@ -262,7 +268,7 @@ public:
         s.x            = x;
         s.y            = y;
         s.style.color  = color;
-        s.style.symbol = symbol;
+        s.style.symbol = symbol % 24;
         s.style.label  = label;
         if (!label.empty()) cur().showLegend = true;
         cur().series.push_back(std::move(s));
@@ -677,13 +683,13 @@ private:
         if (nleg > 0)
         {
             g_->legtit(" ");
-            g_->legend(legBuf_.data(), 7);
+            g_->legend(legBuf_.data(), 7); // upper right corner
         }
 
         // 9. title
         if (!p.title.empty())
         {
-            g_->height(40);
+            g_->htitle(40);
             g_->titlin(p.title.c_str(), 2);
             g_->vkytit(p.titleGap);
             g_->title();
@@ -691,15 +697,15 @@ private:
     }
 
     // ==============================================================
-    void drawPiePanel(const Panel& p)
+    void drawPiePanel(const Panel& p, int axX, int axY, int axW, int axH)
     {
         for (auto& s : p.series)
         {
             if (s.kind != "pie") continue;
             int n = (int)s.y.size();
             if (!n) continue;
-            g_->axslen(1600, 1600);
-            g_->axspos(650, 1950);
+            g_->axslen(axW, axH);
+            g_->axspos(axX, axY);
             int nleg = (int)s.pieLabels.size();
             if (nleg > 0)
             {
@@ -710,14 +716,14 @@ private:
             }
             if (nleg > 0)
             {
-                g_->labels("data", "pie");
-                g_->labpos("external", "pie");
+                g_->labels("percent", "pie");
+                g_->labpos("internal", "pie");
                 g_->chnpie("both");
             }
             g_->piegrf(legBuf_.data(), nleg > 0 ? 1 : 0, s.y.data(), n);
             if (!p.title.empty())
             {
-                g_->height(40);
+                g_->htitle(40);
                 g_->titlin(p.title.c_str(), 2);
                 g_->vkytit(p.titleGap);
                 g_->title();
@@ -766,16 +772,14 @@ private:
                     break;
                 }
             }
-            constexpr int marginX = 450;
+            constexpr int marginX = 450; // left X
             constexpr int marginY = 450;
             int           nw, nh;
             g_->getpag(&nw, &nh);
-            hasPie ? drawPiePanel(p)
-                   : drawXYPanel(p,
-                                 marginX,                              // left X
-                                 nh - static_cast<int>(0.6 * marginY), // bottom Y
-                                 nw - static_cast<int>(1.4 * marginX),
-                                 nh - static_cast<int>(1.4 * marginY));
+            int iy = nh - static_cast<int>(0.6 * marginY); // bottom Y
+            int w  = nw - static_cast<int>(1.4 * marginX);
+            int h  = nh - static_cast<int>(1.4 * marginY);
+            hasPie ? drawPiePanel(p, marginX, iy, w, h) : drawXYPanel(p, marginX, iy, w, h);
         }
         else
         {
@@ -793,7 +797,8 @@ private:
                     }
                 }
                 auto pg = panelGeom(p.row, p.col);
-                hasPie ? drawPiePanel(p) : drawXYPanel(p, pg.x, pg.y, pg.w, pg.h);
+                hasPie ? drawPiePanel(p, pg.x, pg.y, pg.w, pg.h)
+                       : drawXYPanel(p, pg.x, pg.y, pg.w, pg.h);
                 g_->endgrf();
             }
         }

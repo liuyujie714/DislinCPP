@@ -1,17 +1,19 @@
 # DislinPlot 简介
 
-虽然目前有很多用途广泛且功能强大的C++作图库，比如Qt Charts, Qwt，matplotlib-cpp等等，但往往**依赖繁琐且部署复杂，安装和编译配置较重**，对于那些只是想简单可视化数据方便查看和多平台程序移殖的C++开发者而言完全没必要。而原始[Dislin](https://www.dislin.de/)库并没有对各种类型的图进行友好的封装，实际使用起来比较**散乱和不方便**，<u>因此开发一个简单易用的作图库还是有一定意义的</u>。
+虽然目前有很多用途广泛且功能强大的C++作图库，比如Qt Charts, Qwt，Matplot++, matplotlib-cpp等等，但往往**依赖繁琐且部署复杂，安装和编译配置较重**，对于那些只是想简单可视化数据方便查看和多平台程序移殖的C++开发者而言完全没必要。原始[Dislin](https://www.dislin.de/)库并没有对各种类型的图进行友好的封装，实际使用起来比较**散乱和不方便**，<u>因此开发一个简单易用的作图库还是有一定意义的</u>。
 
-`DislinPlot` 是对 [Dislin](https://www.dislin.de/)库的 `matplotlib` 风格 C++ 封装（仅使用头文件），提供折线图、散点图、柱状图、饼图、直方图及多子图布局等基本功能。**注意当前只支持英文字符显示**。
+`DislinPlot` 是对 [Dislin](https://www.dislin.de/)库的 类`matplotlib` 风格 C++ 封装（仅使用头文件），提供折线图、散点图、柱状图、饼图、直方图及多子图布局等基本的2D图功能。
+
+**注意当前只支持英文字符显示**。
 
 # 效果展示
 
-| ![](./pics/line.svg "曲线图")       | ![](./pics/scatter.svg "散点图")      |
-| ----------------------------------- | ------------------------------------- |
-| ![](./pics/bar.svg "柱状图")        | ![](./pics/pie.svg "饼状图")          |
-| ![](./pics/hist.svg "直方图")       | ![](./pics/groupbar.svg "多组柱状图") |
-| ![](./pics/mixed.svg "散点+曲线图") | ![](./pics/annotated.svg "标注图")    |
-| ![](./pics/subplots.svg "多子图")   |                                       |
+| ![](./pics/line.svg "曲线图")       | ![](./pics/scatter.svg "散点图")             |
+| ----------------------------------- | -------------------------------------------- |
+| ![](./pics/bar.svg "柱状图")        | ![](./pics/pie.svg "饼状图")                 |
+| ![](./pics/hist.svg "直方图")       | ![](./pics/groupbar.svg "多组柱状图")        |
+| ![](./pics/mixed.svg "散点+曲线图") | ![](./pics/annotated.svg "标注图")           |
+| ![](./pics/subplots.svg "多子图")   | ![](./pics/multi_types.svg "不同类型图组合") |
 
 
 
@@ -219,7 +221,7 @@ plt.pie(values, sliceLabels);
 
 ```cpp
 plt.pie({35, 25, 20, 20},
-        {"Marketing", "R&D", "Sales", "Other"});  // 标签用英文
+        {"Marketing", "R&D", "Sales", "Other"});  // 最终图上的数据以百分比形式显示
 plt.title("Budget Allocation");
 ```
 

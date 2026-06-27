@@ -7,6 +7,7 @@
 #    define M_PI 3.14159265358979323846
 #endif
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <vector>
@@ -122,7 +123,7 @@ void example_pie()
     plt.figure("Pie", "cons");
     plt.pie(slices, labels);
     plt.title("Language Popularity");
-    plt.title_gap(20);
+    plt.title_gap(-100);
     // plt.show();
     plt.savefig("pie.svg");
 }
@@ -252,6 +253,50 @@ void example_subplots()
     plt.savefig("subplots.svg");
 }
 
+void example_multi_types()
+{
+    std::vector<std::string> colors = {
+        "rgb:1,0,0",   // 红
+        "rgb:1,0.5,0", // 橙
+        "rgb:1,1,0",   // 黄
+        "rgb:0,1,0",   // 绿
+        "rgb:0,1,1",   // 青
+        "rgb:0,0,1",   // 蓝
+        "rgb:0.5,0,1", // 紫
+        "rgb:1,0,1"    // 品红
+    };
+    const size_t ncolors = colors.size();
+
+    DislinPlot plt;
+    plt.figure("Multi-Types plot");
+    plt.subplot_layout(2, 1);
+    int ndata = 8;
+
+    plt.subplot(0, 0);
+    for (int i = 0; i < ndata; i++)
+    {
+        std::vector<double> x = linspace(0, M_PI, 100);
+        std::vector<double> y(100);
+        std::transform(x.begin(), x.end(), y.begin(), [i](auto s) { return std::cos(s * i + 1); });
+        plt.scatter(x, y, colors[i % ncolors], i, "data_" + std::to_string(i));
+        plt.symbol_size(10);
+    }
+    plt.xlim(0, M_PI + 1);
+    plt.xlabel("X2");
+    plt.ylabel("Y2");
+    plt.title("Multi-scatter plot");
+
+    plt.subplot(1, 0);
+    std::vector<double>      slices = {25, 35, 15, 20, 5};
+    std::vector<std::string> labels = {"Python", "C++", "Java", "Rust", "Other"};
+    plt.pie(slices, labels);
+    plt.title("Language Popularity");
+    plt.title_gap(-100);
+
+    // plt.show();
+    plt.savefig("multi_types.svg");
+}
+
 int main()
 {
     std::cout << "DislinPlot - C++ wrapper for DISLIN\n";
@@ -260,12 +305,12 @@ int main()
     example_scatter();
     example_bar();
     example_pie();
-
     example_grouped_bar();
     example_hist();
     example_annotated();
     example_mixed();
     example_subplots();
+    example_multi_types();
 
     return 0;
 }
