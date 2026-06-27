@@ -3,7 +3,7 @@
   "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created by DISLIN (http://www.dislin.de)
 Version: 11.5
-Date   : 27.06.2026 21:18:58
+Date   : 28.06.2026 05:35:13
 -->
 <svg width="853" height="603"
   xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +151,6 @@ font-size="15" stroke="none" fill="#000000">
 <line x1="341.30" y1="190.15" x2="336.71" y2="190.15"/>
 <line x1="336.71" y1="150.86" x2="343.59" y2="150.86"/>
 <line x1="341.30" y1="111.28" x2="336.71" y2="111.28"/>
-<line x1="336.71" y1="71.99" x2="343.59" y2="71.99"/>
 <rect x="361.37" y="543.35" width="25.09" height="2.58"
  fill="#ff0000" stroke="none"/>
 <rect x="361.37" y="541.77" width="25.09" height="2.58"
@@ -660,8 +659,7 @@ font-size="15" stroke="none" fill="#000000">
  fill="#26004d" stroke="none"/>
 <rect x="361.37" y="143.69" width="25.09" height="2.58"
  fill="#220044" stroke="none"/>
-<polyline points="
- 100.38, 71.99 336.71, 71.99 336.71, 544.93 100.38, 544.93 100.38, 71.99"/>
+<line x1="336.71" y1="71.99" x2="343.59" y2="71.99"/>
 </g>
 <g fill="none" stroke="#000000" stroke-width="1.000">
 <line x1="385.46" y1="544.93" x2="385.46" y2="143.69"/>
@@ -4840,8 +4838,6 @@ font-size="15" stroke="none" fill="#000000">
 <line x1="829.72" y1="190.15" x2="822.84" y2="190.15"/>
 <line x1="822.84" y1="131.07" x2="827.43" y2="131.07"/>
 <line x1="829.72" y1="71.99" x2="822.84" y2="71.99"/>
-<polyline points="
- 547.79, 71.99 822.84, 71.99 822.84, 544.93 547.79, 544.93 547.79, 71.99"/>
 </g>
 <g fill="none" stroke="#bfbfbf" stroke-width="1.000">
 <line x1="582.21" y1="72.27" x2="582.21" y2="544.64"/>
@@ -4880,21 +4876,17 @@ font-size="15" stroke="none" fill="#000000">
  778.56, 436.30 780.74, 423.43 782.92, 410.09 785.10, 396.34 787.28, 382.24
  789.47, 367.85 791.65, 353.21 793.83, 338.39 796.01, 323.45 798.19, 308.46"/>
 </g>
-<g fill="none" stroke="#000000" stroke-width="1.000">
-<polyline points="
- 710.12, 77.15 817.39, 77.15 817.39, 102.68 710.12, 102.68 710.12, 77.15"/>
-</g>
 <g fill="none" stroke="#ff0000" stroke-width="1.000">
-<line x1="718.16" y1="90.34" x2="759.45" y2="90.34"/>
+<line x1="718.44" y1="90.06" x2="759.74" y2="90.06"/>
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
 font-size="15" stroke="none" fill="#000000">
-<text x="769.78" y="95.22">s</text>
-<text x="776.70" y="95.22">i</text>
-<text x="781.91" y="95.22">n</text>
-<text x="790.45" y="95.22">(</text>
-<text x="796.51" y="95.22">x</text>
-<text x="805.05" y="95.22">)</text>
+<text x="770.07" y="94.93">s</text>
+<text x="776.99" y="94.93">i</text>
+<text x="782.20" y="94.93">n</text>
+<text x="790.73" y="94.93">(</text>
+<text x="796.80" y="94.93">x</text>
+<text x="805.33" y="94.93">)</text>
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
 font-size="17" stroke="none" fill="#000000">

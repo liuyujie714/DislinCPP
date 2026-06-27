@@ -134,7 +134,7 @@ void example_hist()
 {
     srand(1234);
     std::vector<double> data;
-    for (int i = 0; i < 500; i++)
+    for (int i = 0; i < 1000; i++)
     {
         double u1 = (rand() + 1.0) / (RAND_MAX + 1.0);
         double u2 = (rand() + 1.0) / (RAND_MAX + 1.0);
@@ -143,7 +143,7 @@ void example_hist()
     }
     DislinPlot plt;
     plt.figure("Histogram", "cons", "da4l");
-    plt.hist(data, 20, "steelblue", "Samples");
+    plt.hist(data, 100, "steelblue", "Samples");
     plt.xlabel("Value");
     plt.ylabel("Count");
     plt.title("Histogram - Normal Distribution");
@@ -165,9 +165,9 @@ void example_annotated()
     plt.figure("Annotated", "cons", "da4l");
     plt.plot(x, y, "red");
     // Annotations: use coordinates safely inside the data range
-    plt.text("Peak", 0.0, 0.9);
-    plt.text("Left", -M_PI + 0.2, 0.0);
-    plt.text("Right", M_PI - 0.8, 0.0);
+    plt.text("Peak", 1.0, 0.7);
+    plt.text("Left", -M_PI, 0.0);
+    plt.text("Right", M_PI, 0.0);
     plt.xlabel("x");
     plt.ylabel("f(x)");
     plt.title("Damped Sine with Annotations");

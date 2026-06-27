@@ -3,7 +3,7 @@
   "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created by DISLIN (http://www.dislin.de)
 Version: 11.5
-Date   : 27.06.2026 21:18:58
+Date   : 28.06.2026 05:35:13
 -->
 <svg width="853" height="603"
   xmlns="http://www.w3.org/2000/svg"
@@ -165,8 +165,6 @@ font-size="15" stroke="none" fill="#000000">
 <line x1="799.89" y1="163.76" x2="806.78" y2="163.76"/>
 <line x1="804.48" y1="133.65" x2="799.89" y2="133.65"/>
 <line x1="799.89" y1="103.54" x2="806.78" y2="103.54"/>
-<polyline points="
- 129.06, 103.54 799.89, 103.54 799.89, 524.85 129.06, 524.85 129.06, 103.54"/>
 </g>
 <g fill="none" stroke="#bfbfbf" stroke-width="1.000">
 <line x1="212.81" y1="524.56" x2="212.81" y2="103.82"/>
@@ -199,29 +197,25 @@ font-size="15" stroke="none" fill="#000000">
 <polyline points="
  747.41, 524.56 747.41, 266.15 684.60, 266.15 684.60, 524.56"/>
 </g>
-<g fill="none" stroke="#000000" stroke-width="1.000">
-<polyline points="
- 628.10, 108.70 794.44, 108.70 794.44, 134.22 628.10, 134.22 628.10, 108.70"/>
-</g>
 <g fill="none" stroke="#ff0000" stroke-width="1.000">
 <polyline points="
- 636.13, 116.73 677.43, 116.73 677.43, 126.77 636.13, 126.77 636.13, 116.73"/>
+ 636.42, 116.44 677.72, 116.44 677.72, 126.48 636.42, 126.48 636.42, 116.44"/>
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
 font-size="15" stroke="none" fill="#000000">
-<text x="687.75" y="126.77">M</text>
-<text x="702.18" y="126.77">o</text>
-<text x="710.71" y="126.77">n</text>
-<text x="719.24" y="126.77">t</text>
-<text x="724.45" y="126.77">h</text>
-<text x="732.98" y="126.77">l</text>
-<text x="738.19" y="126.77">y</text>
-<text x="746.72" y="126.77"> </text>
-<text x="751.51" y="126.77">S</text>
-<text x="760.90" y="126.77">a</text>
-<text x="768.57" y="126.77">l</text>
-<text x="773.78" y="126.77">e</text>
-<text x="781.45" y="126.77">s</text>
+<text x="688.04" y="126.48">M</text>
+<text x="702.46" y="126.48">o</text>
+<text x="711.00" y="126.48">n</text>
+<text x="719.53" y="126.48">t</text>
+<text x="724.74" y="126.48">h</text>
+<text x="733.27" y="126.48">l</text>
+<text x="738.48" y="126.48">y</text>
+<text x="747.01" y="126.48"> </text>
+<text x="751.79" y="126.48">S</text>
+<text x="761.18" y="126.48">a</text>
+<text x="768.86" y="126.48">l</text>
+<text x="774.07" y="126.48">e</text>
+<text x="781.74" y="126.48">s</text>
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
 font-size="17" stroke="none" fill="#000000">

@@ -514,9 +514,9 @@ public:
                        ext.end(),
                        ext.begin(),
                        [](char c) { return (char)std::tolower((unsigned char)c); });
-        const std::vector<std::string> supported_fmts = {
-            "png", "pdf", "eps", "svg", "gif", "tiff", "ps", "wmf", "emf", "ppm", "bmp"};
-        std::string fmt = "png";
+        std::string                           fmt            = "png";
+        static const std::vector<std::string> supported_fmts = {
+            "png", "gif", "tiff", "ppm", "bmp", "pdf", "eps", "svg", "ps", "wmf", "emf"};
         if (std::find(supported_fmts.cbegin(), supported_fmts.cend(), ext) != supported_fmts.cend())
         {
             fmt = ext;
@@ -962,14 +962,21 @@ private:
         g_ = std::make_unique<Dislin>();
         g_->metafl(fmt.c_str());
         g_->scrmod("revers");
+        g_->imgfmt("RGB");
         g_->setpag(page_.c_str());
+        const std::string raster_fmts = "png,gif,tiff,tif,ppm,bmp";
+        // dpi for image output, 4:3
+        if (raster_fmts.find(fmt) != std::string::npos) { g_->winsiz(3000, 2250); }
         if (!filepath.empty())
         {
             g_->filmod("delete");
             g_->setfil(filepath.c_str());
         }
+
         g_->disini();
         g_->errmod("ALL", "OFF");
+        g_->frame(0); // turn off legend frame
+        g_->nochek();
         g_->texmod("ON"); // TeX mode
 #ifdef _WIN32
         // only for emf files and screen output
@@ -980,6 +987,11 @@ private:
 #endif
         g_->chacod("utf8"); // support Chinese
         g_->hwfont();
+        if (raster_fmts.find(fmt) != std::string::npos)
+        {
+            g_->helves();
+            g_->shdcha();
+        }
         if (fmt == "cons") { g_->wintit(win_title_.c_str()); }
 
         if (!useSubplot_)

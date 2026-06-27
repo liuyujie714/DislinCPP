@@ -3,7 +3,7 @@
   "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created by DISLIN (http://www.dislin.de)
 Version: 11.5
-Date   : 27.06.2026 21:18:58
+Date   : 28.06.2026 05:35:13
 -->
 <svg width="853" height="603"
   xmlns="http://www.w3.org/2000/svg"
@@ -165,8 +165,6 @@ font-size="15" stroke="none" fill="#000000">
 <line x1="799.89" y1="156.31" x2="806.78" y2="156.31"/>
 <line x1="804.48" y1="129.92" x2="799.89" y2="129.92"/>
 <line x1="799.89" y1="103.54" x2="806.78" y2="103.54"/>
-<polyline points="
- 129.06, 103.54 799.89, 103.54 799.89, 524.85 129.06, 524.85 129.06, 103.54"/>
 </g>
 <g fill="none" stroke="#bfbfbf" stroke-width="1.000">
 <line x1="212.81" y1="524.56" x2="212.81" y2="103.82"/>
@@ -221,25 +219,25 @@ font-size="15" stroke="none" fill="#000000">
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
 font-size="15" stroke="none" fill="#000000">
-<text x="464.62" y="113.57">P</text>
-<text x="474.01" y="113.57">e</text>
-<text x="481.68" y="113.57">a</text>
-<text x="489.36" y="113.57">k</text>
+<text x="548.37" y="139.96">P</text>
+<text x="557.76" y="139.96">e</text>
+<text x="565.43" y="139.96">a</text>
+<text x="573.11" y="139.96">k</text>
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
 font-size="15" stroke="none" fill="#000000">
-<text x="217.68" y="324.37">L</text>
-<text x="227.93" y="324.37">e</text>
-<text x="235.60" y="324.37">f</text>
-<text x="241.67" y="324.37">t</text>
+<text x="201.05" y="324.37">L</text>
+<text x="211.29" y="324.37">e</text>
+<text x="218.97" y="324.37">f</text>
+<text x="225.04" y="324.37">t</text>
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
 font-size="15" stroke="none" fill="#000000">
-<text x="660.79" y="324.37">R</text>
-<text x="671.90" y="324.37">i</text>
-<text x="677.11" y="324.37">g</text>
-<text x="685.64" y="324.37">h</text>
-<text x="694.17" y="324.37">t</text>
+<text x="727.91" y="324.37">R</text>
+<text x="739.01" y="324.37">i</text>
+<text x="744.22" y="324.37">g</text>
+<text x="752.75" y="324.37">h</text>
+<text x="761.28" y="324.37">t</text>
 </g>
 <g font-family="Times" font-weight="normal" font-style="normal"
 font-size="17" stroke="none" fill="#000000">
