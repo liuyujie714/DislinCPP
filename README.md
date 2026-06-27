@@ -14,6 +14,7 @@
 | ![](./pics/hist.svg "直方图")       | ![](./pics/groupbar.svg "多组柱状图")        |
 | ![](./pics/mixed.svg "散点+曲线图") | ![](./pics/annotated.svg "标注图")           |
 | ![](./pics/subplots.svg "多子图")   | ![](./pics/multi_types.svg "不同类型图组合") |
+| ![](./pics/heatmap.svg "热图")      | ![](./pics/heatmap_line.svg "多子图")        |
 
 
 
@@ -45,7 +46,8 @@
 ```cpp
 #include "DislinPlot.h"
 
-int main() {
+int main() 
+{
     std::vector<double> x = {0, 1, 2, 3, 4};
     std::vector<double> y = {0, 1, 4, 9, 16};
 

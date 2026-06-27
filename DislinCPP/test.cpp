@@ -297,6 +297,130 @@ void example_multi_types()
     plt.savefig("multi_types.svg");
 }
 
+void examples_imshow()
+{
+    const int    rows = 60, cols = 80;
+    const double pi = 3.14159265358979;
+
+    // ── 测试1：基本热图，vector<vector<double>> 接口 ─────────
+    {
+        std::vector<std::vector<double>> mat(rows, std::vector<double>(cols));
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                mat[r][c] = std::sin(r * pi / rows * 4) * std::cos(c * pi / cols * 4);
+
+        DislinPlot plt;
+        plt.figure("Test1: basic imshow");
+        plt.imshow(mat, "SPEC");
+        plt.title("sin(r) * cos(c)  [SPEC]");
+        plt.xlabel("Column");
+        plt.ylabel("Row");
+        // plt.show();
+    }
+
+    // ── 测试2：指定物理坐标范围 + 不同色表 ──────────────────
+    {
+        std::vector<double> flat(rows * cols);
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+            {
+                double x           = -2.0 + 4.0 * c / (cols - 1);
+                double y           = -2.0 + 4.0 * r / (rows - 1);
+                flat[r * cols + c] = std::exp(-(x * x + y * y));
+            }
+
+        DislinPlot plt;
+        plt.figure("Test2: custom range, RAIN colormap");
+        plt.imshow(flat.data(),
+                   rows,
+                   cols,
+                   -2.0,
+                   2.0, // x range
+                   -2.0,
+                   2.0, // y range
+                   "RAIN",
+                   true);
+        plt.title("$Gaussian  exp(-(x^2+y^2))  [RAIN]$");
+        plt.xlabel("X");
+        plt.ylabel("Y");
+        // plt.show();
+        plt.savefig("heatmap.svg");
+    }
+
+    // ── 测试3：关闭色条 ──────────────────────────────────────
+    {
+        std::vector<std::vector<double>> mat(rows, std::vector<double>(cols));
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                mat[r][c] = static_cast<double>(r + c);
+
+        DislinPlot plt;
+        plt.figure("Test3: no colorbar");
+        plt.imshow(mat, "GREY");
+        plt.colorbar(false);
+        plt.title("r + c  [GREY, no colorbar]");
+        // plt.show();
+    }
+
+    // ── 测试4：热图 + 手动轴范围 (xlim/ylim) ────────────────
+    {
+        std::vector<std::vector<double>> mat(rows, std::vector<double>(cols));
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                mat[r][c] = std::sin(r * 0.3) + std::cos(c * 0.2);
+
+        DislinPlot plt;
+        plt.figure("Test4: xlim/ylim override");
+        plt.imshow(mat, "TEMP");
+        plt.xlim(0, cols);
+        plt.ylim(0, rows);
+        plt.title("sin(r*0.3)+cos(c*0.2)  [TEMP]");
+        plt.xlabel("X");
+        plt.ylabel("Y");
+        plt.grid("on");
+        // plt.show();
+    }
+
+    // ── 测试5：subplot 混合热图与折线图 ──────────────────────
+    {
+        // 热图数据
+        std::vector<std::vector<double>> mat(40, std::vector<double>(50));
+        for (int r = 0; r < 40; r++)
+            for (int c = 0; c < 50; c++)
+                mat[r][c] = std::sin(r * pi / 20) * std::sin(c * pi / 25);
+
+        // 折线数据
+        const int           n = 100;
+        std::vector<double> x(n), y(n);
+        for (int i = 0; i < n; i++)
+        {
+            x[i] = i * 2.0 * pi / (n - 1);
+            y[i] = std::sin(x[i]);
+        }
+
+        DislinPlot plt;
+        plt.figure("Test5: subplot heatmap + line");
+        plt.subplot_layout(1, 2);
+        plt.set_gap_xy(600, 350);
+
+        plt.subplot(0, 0);
+        plt.imshow(mat, "RRAIN");
+        plt.title("Heatmap [RRAIN]");
+        plt.xlabel("col");
+        plt.ylabel("row");
+
+        plt.subplot(0, 1);
+        plt.plot(x, y, "red", "sin(x)");
+        plt.title("Line plot");
+        plt.xlabel("x");
+        plt.ylabel("sin(x)");
+        plt.grid("on");
+
+        // plt.show();
+        plt.savefig("heatmap_line.svg");
+    }
+}
+
 int main()
 {
     std::cout << "DislinPlot - C++ wrapper for DISLIN\n";
@@ -311,6 +435,7 @@ int main()
     example_mixed();
     example_subplots();
     example_multi_types();
+    examples_imshow();
 
     return 0;
 }

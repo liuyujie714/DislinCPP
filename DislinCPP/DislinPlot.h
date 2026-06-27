@@ -51,6 +51,16 @@
  *   plt.hist(data, bins, color, label)
  *       Histogram. Bins the raw data automatically into `bins` equal-width bars.
  *
+ *   plt.imshow(data, rows, cols, xmin, xmax, ymin, ymax, colormap, showColorbar)
+ *       Heatmap / image plot. data is row-major (data[row*cols+col]).
+ *       Also accepts std::vector<double> or std::vector<std::vector<double>>.
+ *       xmin/xmax/ymin/ymax default to [0,cols] and [0,rows].
+ *       colormap : "RAIN" (default) | "RRAIN" | "SPEC" | "RSPEC"
+ *                  "GREY" | "RGREY" | "TEMP"  | "VGA"  | "SMALL"
+ *
+ *   plt.colorbar(true/false)
+ *       Toggle the colour scale bar for the most recently added heatmap.
+ *
  * ── Appearance ─────
  *
  *   plt.title("Chart Title")       // main chart title
@@ -179,6 +189,15 @@ struct PlotStyle
     int         symbol = 21;
 };
 
+enum class PlotType
+{
+    Line,
+    Scatter,
+    Bar,
+    Pie,
+    Heatmap // ← 新增
+};
+
 // ==============================================================
 class DislinPlot
 {
@@ -223,6 +242,12 @@ public:
         cur().manualYmax = hi;
         cur().manualY    = true;
     }
+    // setup gaps between panels
+    void set_gap_xy(int gapx, int gapy)
+    {
+        gapX_ = gapx;
+        gapY_ = gapy;
+    }
 
     // ==============================================================
     void plot(const std::vector<double>& x,
@@ -232,7 +257,7 @@ public:
     {
         if (x.size() != y.size() || x.empty()) throw std::runtime_error("plot: x/y size mismatch");
         Series s;
-        s.kind        = "line";
+        s.kind        = PlotType::Line;
         s.x           = x;
         s.y           = y;
         s.style.color = color;
@@ -264,7 +289,7 @@ public:
         if (x.size() != y.size() || x.empty())
             throw std::runtime_error("scatter: x/y size mismatch");
         Series s;
-        s.kind         = "scatter";
+        s.kind         = PlotType::Scatter;
         s.x            = x;
         s.y            = y;
         s.style.color  = color;
@@ -290,7 +315,7 @@ public:
     {
         if (x.size() != y.size() || x.empty()) throw std::runtime_error("bar: x/y size mismatch");
         Series s;
-        s.kind        = "bar";
+        s.kind        = PlotType::Bar;
         s.x           = x;
         s.y           = y;
         s.y0          = std::vector<double>(y.size(), 0.0);
@@ -318,7 +343,7 @@ public:
         for (int g = 0; g < ng; g++)
         {
             Series s;
-            s.kind        = "bar";
+            s.kind        = PlotType::Bar;
             s.x           = cats;
             s.y           = data[g];
             s.y0          = std::vector<double>(cats.size(), 0.0);
@@ -334,7 +359,7 @@ public:
     void pie(const std::vector<double>& values, const std::vector<std::string>& sliceLabels = {})
     {
         Series s;
-        s.kind      = "pie";
+        s.kind      = PlotType::Pie;
         s.y         = values;
         s.pieLabels = sliceLabels;
         cur().series.push_back(std::move(s));
@@ -366,6 +391,78 @@ public:
         bar(xc, yc, color, label);
     }
 
+    // imshow / heatmap
+    void imshow(const double*      data,
+                int                rows,
+                int                cols,
+                double             xmin     = 0.0,
+                double             xmax     = -1.0,
+                double             ymin     = 0.0,
+                double             ymax     = -1.0,
+                const std::string& colormap = "RAIN",
+                bool               showCbar = true)
+    {
+        if (!data || rows <= 0 || cols <= 0)
+            throw std::runtime_error("imshow: invalid data or dimensions");
+        if (xmax < 0) xmax = static_cast<double>(cols);
+        if (ymax < 0) ymax = static_cast<double>(rows);
+
+        Series s;
+        s.kind         = PlotType::Heatmap;
+        s.heatData     = std::vector<double>(data, data + rows * cols);
+        s.heatRows     = rows;
+        s.heatCols     = cols;
+        s.heatXmin     = xmin;
+        s.heatXmax     = xmax;
+        s.heatYmin     = ymin;
+        s.heatYmax     = ymax;
+        s.colormap     = colormap;
+        s.showColorbar = showCbar;
+        cur().series.push_back(std::move(s));
+    }
+
+    void imshow(const std::vector<double>& data,
+                int                        rows,
+                int                        cols,
+                double                     xmin     = 0.0,
+                double                     xmax     = -1.0,
+                double                     ymin     = 0.0,
+                double                     ymax     = -1.0,
+                const std::string&         colormap = "RAIN",
+                bool                       showCbar = true)
+    {
+        imshow(data.data(), rows, cols, xmin, xmax, ymin, ymax, colormap, showCbar);
+    }
+
+    void imshow(const std::vector<std::vector<double>>& mat,
+                const std::string&                      colormap = "RAIN",
+                bool                                    showCbar = true)
+    {
+        if (mat.empty() || mat[0].empty()) throw std::runtime_error("imshow: empty matrix");
+        int                 rows = static_cast<int>(mat.size());
+        int                 cols = static_cast<int>(mat[0].size());
+        std::vector<double> flat;
+        flat.reserve(rows * cols);
+        for (auto& row : mat)
+            for (double v : row)
+                flat.push_back(v);
+        imshow(flat.data(), rows, cols, 0.0, static_cast<double>(cols), 0.0, static_cast<double>(rows), colormap, showCbar);
+    }
+
+    // turn on/off colorbar
+    void colorbar(bool show = true)
+    {
+        for (auto it = cur().series.rbegin(); it != cur().series.rend(); ++it)
+        {
+            if (it->kind == PlotType::Heatmap)
+            {
+                it->showColorbar = show;
+                break;
+            }
+        }
+    }
+
+    // draw text
     void text(const std::string& msg, double x, double y, const std::string& color = "fore")
     {
         Annotation a;
@@ -376,7 +473,6 @@ public:
         cur().annotations.push_back(std::move(a));
     }
 
-    // ==============================================================
     /**
      * subplot_layout(rows, cols): call once before subplot().
      * subplot(row, col)         : switch to that panel (0-based).
@@ -432,11 +528,20 @@ private:
     // ==============================================================
     struct Series
     {
-        std::string              kind;
+        PlotType                 kind;
         std::vector<double>      x, y, y0;
         PlotStyle                style;
         int                      groupIndex = 0, groupCount = 1;
         std::vector<std::string> pieLabels;
+
+        // heat map
+        std::vector<double> heatData; //  = heatRows * heatCols
+        int                 heatRows = 0;
+        int                 heatCols = 0;
+        double              heatXmin = 0.0, heatXmax = 1.0;
+        double              heatYmin = 0.0, heatYmax = 1.0;
+        std::string         colormap     = "RAIN";
+        bool                showColorbar = true;
     };
     struct Annotation
     {
@@ -465,6 +570,7 @@ private:
     std::vector<Panel>      panels_;
     std::unique_ptr<Dislin> g_;
     std::vector<char>       legBuf_;
+    int                     gapX_ = 250, gapY_ = 350; // gaps between panels
 
     // ==============================================================
     Panel& cur()
@@ -488,6 +594,8 @@ private:
         useSubplot_ = false;
         subRows_ = subCols_ = 1;
         symbolSz_           = 45;
+        gapX_               = 250;
+        gapY_               = 350;
         g_.reset();
         legBuf_.clear();
         // always have at least one panel
@@ -519,7 +627,15 @@ private:
         xhi = yhi = -std::numeric_limits<double>::infinity();
         for (auto& s : p.series)
         {
-            if (s.kind == "pie") continue;
+            if (s.kind == PlotType::Pie) continue;
+            if (s.kind == PlotType::Heatmap)
+            {
+                xlo = std::min(xlo, s.heatXmin);
+                xhi = std::max(xhi, s.heatXmax);
+                ylo = std::min(ylo, s.heatYmin);
+                yhi = std::max(yhi, s.heatYmax);
+                continue;
+            }
             for (double v : s.x)
             {
                 xlo = std::min(xlo, v);
@@ -538,7 +654,6 @@ private:
         return std::isfinite(xlo);
     }
 
-    // ==============================================================
     // DISLIN A4L page = 2970 × 2100 internal units
     // axspos(x,y) = BOTTOM-LEFT corner of axis box
     // axslen(w,h) = width and height of axis box
@@ -551,26 +666,25 @@ private:
         // Leave generous margins so tick labels / titles don't overlap
         const int pageW = 2970, pageH = 2100;
         const int marginL = 350, marginR = 100, marginT = 200, marginB = 250;
-        const int gapX = 250, gapY = 350; // gaps between panels
 
         int totalW = pageW - marginL - marginR;
         int totalH = pageH - marginT - marginB;
         // Each cell width/height (including one gap)
-        int cellW = (totalW - (subCols_ - 1) * gapX) / subCols_;
-        int cellH = (totalH - (subRows_ - 1) * gapY) / subRows_;
+        int cellW = (totalW - (subCols_ - 1) * gapX_) / subCols_;
+        int cellH = (totalH - (subRows_ - 1) * gapY_) / subRows_;
 
         PanelGeom pg;
         pg.w = cellW;
         pg.h = cellH;
         // x: left edge of axis box
-        pg.x = marginL + col * (cellW + gapX);
+        pg.x = marginL + col * (cellW + gapX_);
         // y: BOTTOM edge of axis box (DISLIN counts from bottom)
         // row 0 is the TOP row → largest y value
-        pg.y = marginB + (subRows_ - 1 - row) * (cellH + gapY) + cellH;
+        pg.y = marginB + (subRows_ - 1 - row) * (cellH + gapY_) + cellH;
         return pg;
     }
 
-    // ==============================================================
+    // draw legend
     void buildLegend(int nlin, int maxlen = 20)
     {
         legBuf_.assign((maxlen + 1) * nlin + 64, 0);
@@ -590,7 +704,7 @@ private:
             dyhi = 1;
         }
         for (auto& s : p.series)
-            if (s.kind == "bar") dylo = std::min(dylo, 0.0);
+            if (s.kind == PlotType::Bar) dylo = std::min(dylo, 0.0);
 
         double axXmin, axXmax, xstep, axYmin, axYmax, ystep;
         if (p.manualX)
@@ -640,30 +754,34 @@ private:
         // 5. grouped bar prefix
         int maxGrp = 1;
         for (auto& s : p.series)
-            if (s.kind == "bar") maxGrp = std::max(maxGrp, s.groupCount);
+            if (s.kind == PlotType::Bar) maxGrp = std::max(maxGrp, s.groupCount);
         if (maxGrp > 1) g_->bargrp(maxGrp, 0.15);
 
         // 6. draw series
         for (auto& s : p.series)
         {
-            if (s.kind == "pie") continue;
+            if (s.kind == PlotType::Pie) continue;
+            if (s.kind == PlotType::Heatmap) continue;
             applyColor(s.style.color);
-            if (s.kind == "line") { g_->curve(s.x.data(), s.y.data(), (int)s.x.size()); }
-            else if (s.kind == "scatter")
+            switch (s.kind)
             {
-                g_->hsymbl(symbolSz_);
-                g_->incmrk(-1);
-                g_->marker(s.style.symbol);
-                g_->curve(s.x.data(), s.y.data(), (int)s.x.size());
-                g_->incmrk(0);
+                case PlotType::Line: g_->curve(s.x.data(), s.y.data(), (int)s.x.size()); break;
+                case PlotType::Scatter:
+                    g_->hsymbl(symbolSz_);
+                    g_->incmrk(-1);
+                    g_->marker(s.style.symbol);
+                    g_->curve(s.x.data(), s.y.data(), (int)s.x.size());
+                    g_->incmrk(0);
+                    break;
+                case PlotType::Bar:
+                    g_->bars(const_cast<double*>(s.x.data()),
+                             const_cast<double*>(s.y0.data()),
+                             const_cast<double*>(s.y.data()),
+                             (int)s.x.size());
+                    break;
+                default: break;
             }
-            else if (s.kind == "bar")
-            {
-                g_->bars(const_cast<double*>(s.x.data()),
-                         const_cast<double*>(s.y0.data()),
-                         const_cast<double*>(s.y.data()),
-                         (int)s.x.size());
-            }
+
             if (nleg > 0 && !s.style.label.empty())
                 g_->leglin(legBuf_.data(), s.style.label.c_str(), legIdx++);
         }
@@ -701,7 +819,7 @@ private:
     {
         for (auto& s : p.series)
         {
-            if (s.kind != "pie") continue;
+            if (s.kind != PlotType::Pie) continue;
             int n = (int)s.y.size();
             if (!n) continue;
             g_->axslen(axW, axH);
@@ -732,6 +850,113 @@ private:
     }
 
     // ==============================================================
+    void drawHeatPanel(const Panel& p, int axX, int axY, int axW, int axH)
+    {
+        const Series* hs = nullptr;
+        for (auto& s : p.series)
+        {
+            if (s.kind == PlotType::Heatmap && !s.heatData.empty())
+            {
+                hs = &s;
+                break;
+            }
+        }
+        if (!hs) return;
+
+        int    rows = hs->heatRows;
+        int    cols = hs->heatCols;
+        double xmin = hs->heatXmin, xmax = hs->heatXmax;
+        double ymin = hs->heatYmin, ymax = hs->heatYmax;
+
+        double axXmin, axXmax, xstep, axYmin, axYmax, ystep;
+        if (p.manualX)
+        {
+            axXmin = p.manualXmin;
+            axXmax = p.manualXmax;
+            xstep  = dp_detail::niceStep(axXmax - axXmin);
+        }
+        else { dp_detail::niceAxis(xmin, xmax, axXmin, axXmax, xstep); }
+
+        if (p.manualY)
+        {
+            axYmin = p.manualYmin;
+            axYmax = p.manualYmax;
+            ystep  = dp_detail::niceStep(axYmax - axYmin);
+        }
+        else { dp_detail::niceAxis(ymin, ymax, axYmin, axYmax, ystep); }
+
+        double zmin = *std::min_element(hs->heatData.begin(), hs->heatData.end());
+        double zmax = *std::max_element(hs->heatData.begin(), hs->heatData.end());
+        if (zmin == zmax)
+        {
+            zmin -= 1.0;
+            zmax += 1.0;
+        }
+        double zstep = dp_detail::niceStep(zmax - zmin);
+        double zlo   = dp_detail::floorTo(zmin, zstep);
+        double zhi   = dp_detail::ceilTo(zmax, zstep);
+        int    drawW = hs->showColorbar ? static_cast<int>(axW * 0.86) : axW;
+
+        g_->setvlt(hs->colormap.c_str());
+        if (!hs->showColorbar) g_->nobar();
+        g_->autres(cols, rows);
+        g_->axspos(axX, axY);
+        g_->axslen(drawW, axH);
+        if (!p.xlabelStr.empty()) g_->name(p.xlabelStr.c_str(), "x");
+        if (!p.ylabelStr.empty()) g_->name(p.ylabelStr.c_str(), "y");
+        if (p.useAxBg)
+        {
+            int ic = g_->intrgb(p.axBgR, p.axBgG, p.axBgB);
+            g_->axsbgd(ic);
+        }
+        g_->graf3(axXmin, axXmax, axXmin, xstep, axYmin, axYmax, axYmin, ystep, zlo, zhi, zlo, zstep);
+
+        if (p.gridMode == "on")
+        {
+            g_->setrgb(0.4, 0.4, 0.4);
+            g_->grid(1, 1);
+            g_->color("fore");
+        }
+
+        // heatData[row*cols+col] → colMajor[col*rows+row]
+        std::vector<double> colMajor(static_cast<size_t>(rows) * cols);
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                colMajor[c * rows + r] = hs->heatData[r * cols + c];
+
+        g_->crvmat(colMajor.data(), cols, rows, 1, 1);
+
+        for (auto& a : p.annotations)
+        {
+            double ax = std::max(axXmin, std::min(axXmax, a.x));
+            double ay = std::max(axYmin, std::min(axYmax, a.y));
+            applyColor(a.color);
+            g_->messag(a.msg.c_str(), g_->nxposn(ax), g_->nyposn(ay));
+        }
+        g_->color("fore");
+
+        if (!p.title.empty())
+        {
+            g_->htitle(40);
+            g_->titlin(p.title.c_str(), 2);
+            g_->vkytit(p.titleGap);
+            g_->title();
+        }
+
+        // restore color map and bar
+        g_->setvlt("RAIN");
+        if (!hs->showColorbar) g_->reset("nobar");
+    }
+
+    // check if a Panel has a Series of specified type
+    static bool hasType(const Panel& p, PlotType t)
+    {
+        for (auto& s : p.series)
+            if (s.kind == t) return true;
+        return false;
+    }
+
+    // ==============================================================
     void render_all(const std::string& fmt, const std::string& filepath)
     {
         g_ = std::make_unique<Dislin>();
@@ -756,30 +981,29 @@ private:
         g_->chacod("utf8"); // support Chinese
         g_->hwfont();
         if (fmt == "cons") { g_->wintit(win_title_.c_str()); }
-        // g_->helves();
-        // g_->shdcha();
 
         if (!useSubplot_)
         {
             // Single panel: always panels_[0]
-            Panel& p      = panels_[0];
-            bool   hasPie = false;
-            for (auto& s : p.series)
-            {
-                if (s.kind == "pie")
-                {
-                    hasPie = true;
-                    break;
-                }
-            }
-            constexpr int marginX = 450; // left X
+            Panel& p = panels_[0];
+
+            bool hasPie  = hasType(p, PlotType::Pie);
+            bool hasHeat = hasType(p, PlotType::Heatmap);
+
+            constexpr int marginX = 450;
             constexpr int marginY = 450;
             int           nw, nh;
             g_->getpag(&nw, &nh);
-            int iy = nh - static_cast<int>(0.6 * marginY); // bottom Y
+            int iy = nh - static_cast<int>(0.6 * marginY);
             int w  = nw - static_cast<int>(1.4 * marginX);
             int h  = nh - static_cast<int>(1.4 * marginY);
-            hasPie ? drawPiePanel(p, marginX, iy, w, h) : drawXYPanel(p, marginX, iy, w, h);
+
+            if (hasPie)
+                drawPiePanel(p, marginX, iy, w, h);
+            else if (hasHeat)
+                drawHeatPanel(p, marginX, iy, w, h);
+            else
+                drawXYPanel(p, marginX, iy, w, h);
         }
         else
         {
@@ -787,18 +1011,19 @@ private:
             for (auto& p : panels_)
             {
                 if (p.series.empty()) continue;
-                bool hasPie = false;
-                for (auto& s : p.series)
-                {
-                    if (s.kind == "pie")
-                    {
-                        hasPie = true;
-                        break;
-                    }
-                }
+
+                bool hasPie  = hasType(p, PlotType::Pie);
+                bool hasHeat = hasType(p, PlotType::Heatmap);
+
                 auto pg = panelGeom(p.row, p.col);
-                hasPie ? drawPiePanel(p, pg.x, pg.y, pg.w, pg.h)
-                       : drawXYPanel(p, pg.x, pg.y, pg.w, pg.h);
+
+                if (hasPie)
+                    drawPiePanel(p, pg.x, pg.y, pg.w, pg.h);
+                else if (hasHeat)
+                    drawHeatPanel(p, pg.x, pg.y, pg.w, pg.h);
+                else
+                    drawXYPanel(p, pg.x, pg.y, pg.w, pg.h);
+
                 g_->endgrf();
             }
         }
