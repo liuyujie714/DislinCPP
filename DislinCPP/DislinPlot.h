@@ -1,14 +1,12 @@
 /**
  * ╔══════════════════════════════════════════════════════════════════════════╗
- * ║              DislinPlot.h  —  matplotlib-style C++ wrapper               ║
+ * ║              DislinPlot.h  -  matplotlib-style C++ wrapper               ║
  * ║                         around the DISLIN library                        ║
  * ╚══════════════════════════════════════════════════════════════════════════╝
  *
- * Requires:  discpp.h on the include path
- * Link with: -ldislin -lX11 -lm   (Linux)
- *            discpp.lib           (Windows MSVC)
+ * Requires: dislin library (https://www.dislin.de/distributions.html)
  *
- * ── Quick start ────
+ * -- Quick start ----
  *
  *   DislinPlot plt;
  *   plt.figure("My Window");       // title shown in the window title bar
@@ -20,14 +18,14 @@
  *   plt.show();                    // render to screen
  *   // plt.savefig("out.png");     // or save to file
  *
- * ── figure() ──────
+ * -- figure() ------
  *
  *   plt.figure(win_title, output, page)
  *     win_title : string shown in the window title bar
  *     output    : "cons" (screen, default) | "png" | "pdf" | "eps" | "svg" | "gif"
  *     page      : "da4l" (A4 landscape, default) | "da4p" (A4 portrait) | "da3l" …
  *
- * ── Chart types ────
+ * -- Chart types ----
  *
  *   plt.plot(x, y, color, label)
  *       Line / curve chart. x and y are std::vector<double> or (double*, int n).
@@ -61,7 +59,7 @@
  *   plt.colorbar(true/false)
  *       Toggle the colour scale bar for the most recently added heatmap.
  *
- * ── Appearance ─────
+ * -- Appearance -----
  *
  *   plt.title("Chart Title")       // main chart title
  *   plt.xlabel("X label")          // x-axis label
@@ -74,24 +72,24 @@
  *                                  //   positive → title moves up (more space)
  *                                  //   negative → title moves down (less space)
  *
- * ── Colors ─────
+ * -- Colors -----
  *
  *   DISLIN named colors : "red" "green" "blue" "yellow" "cyan" "white" "fore"
  *   Extended names      : "steelblue" "orange" "purple" "brown" "pink" "gray"
  *   Custom RGB          : "rgb:0.2,0.6,0.9"   (each channel in [0, 1])
  *
- * ── Axis limits ────
+ * -- Axis limits ----
  *
  *   plt.xlim(lo, hi)               // fix x-axis range manually
  *   plt.ylim(lo, hi)               // fix y-axis range manually
  *   (if not called, ranges are computed automatically from the data)
  *
- * ── Text annotations ───
+ * -- Text annotations ---
  *
  *   plt.text("label", x, y)        // draw text at data coordinates (x, y)
  *   plt.text("label", x, y, "red") // with a specific color
  *
- * ── Output ──
+ * -- Output --
  *
  *   plt.show()                     // display on screen (blocks until window is closed)
  *   plt.savefig("chart.png")       // save as PNG  (extension sets the format)
@@ -99,7 +97,7 @@
  *   plt.savefig("chart.svg")       // save as SVG
  *   plt.savefig("chart.eps")       // save as EPS
  *
- * ── Subplots ───
+ * -- Subplots ---
  *
  *   All panel data is collected first, then rendered in a SINGLE Dislin
  *   session when show() / savefig() is called.
@@ -218,6 +216,8 @@ public:
 
     void xlabel(const std::string& s) { cur().xlabelStr = s; }
     void ylabel(const std::string& s) { cur().ylabelStr = s; }
+    // set colorbar label only for heatmap
+    void zlabel(const std::string& s) { cur().zlabelStr = s; }
     void title(const std::string& s) { cur().title = s; }
     void title_gap(int offset) { cur().titleGap = offset; }
     void grid(const std::string& s = "on") { cur().gridMode = s; }
@@ -552,14 +552,14 @@ private:
     // One panel = one set of series + its own config
     struct Panel
     {
-        int                     row = 0, col = 0, titleGap = -100;
-        std::string             title, xlabelStr, ylabelStr, gridMode = "off", panelTitle;
-        bool                    manualX = false, manualY = false;
-        double                  manualXmin = 0, manualXmax = 1, manualYmin = 0, manualYmax = 1;
-        bool                    useAxBg = false;
-        double                  axBgR = 0.97, axBgG = 0.97, axBgB = 0.97;
-        bool                    showLegend = false;
-        std::vector<Series>     series;
+        int                 row = 0, col = 0, titleGap = -100;
+        std::string         title, xlabelStr, ylabelStr, zlabelStr, gridMode = "off", panelTitle;
+        bool                manualX = false, manualY = false;
+        double              manualXmin = 0, manualXmax = 1, manualYmin = 0, manualYmax = 1;
+        bool                useAxBg = false;
+        double              axBgR = 0.97, axBgG = 0.97, axBgB = 0.97;
+        bool                showLegend = false;
+        std::vector<Series> series;
         std::vector<Annotation> annotations;
     };
 
@@ -902,8 +902,12 @@ private:
         g_->autres(cols, rows);
         g_->axspos(axX, axY);
         g_->axslen(drawW, axH);
+        g_->jusbar("center");
+        g_->posbar("right");
+        g_->rvynam(); // 90 angle for colourbar label
         if (!p.xlabelStr.empty()) g_->name(p.xlabelStr.c_str(), "x");
         if (!p.ylabelStr.empty()) g_->name(p.ylabelStr.c_str(), "y");
+        if (!p.zlabelStr.empty()) g_->name(p.zlabelStr.c_str(), "z");
         if (p.useAxBg)
         {
             int ic = g_->intrgb(p.axBgR, p.axBgG, p.axBgB);

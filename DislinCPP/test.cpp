@@ -344,6 +344,8 @@ void examples_imshow()
         plt.title("Gaussian  exp(-$(x^2+y^2)$)  [RAIN]");
         plt.xlabel("X");
         plt.ylabel("Y");
+        plt.zlabel("My name is Color Bar");
+
         // plt.show();
         plt.savefig("heatmap.svg");
     }
