@@ -193,7 +193,7 @@ enum class PlotType
     Scatter,
     Bar,
     Pie,
-    Heatmap // ← 新增
+    Heatmap
 };
 
 // ==============================================================
@@ -602,6 +602,14 @@ private:
         panels_.push_back(Panel{});
     }
 
+    void set_title(const Panel& p)
+    {
+        g_->htitle(40);
+        g_->titlin(p.title.c_str(), 2);
+        g_->vkytit(p.titleGap);
+        g_->title();
+    }
+
     // ==============================================================
     void applyColor(const std::string& col)
     {
@@ -805,13 +813,7 @@ private:
         }
 
         // 9. title
-        if (!p.title.empty())
-        {
-            g_->htitle(40);
-            g_->titlin(p.title.c_str(), 2);
-            g_->vkytit(p.titleGap);
-            g_->title();
-        }
+        if (!p.title.empty()) { set_title(p); }
     }
 
     // ==============================================================
@@ -839,13 +841,7 @@ private:
                 g_->chnpie("both");
             }
             g_->piegrf(legBuf_.data(), nleg > 0 ? 1 : 0, s.y.data(), n);
-            if (!p.title.empty())
-            {
-                g_->htitle(40);
-                g_->titlin(p.title.c_str(), 2);
-                g_->vkytit(p.titleGap);
-                g_->title();
-            }
+            if (!p.title.empty()) { set_title(p); }
         }
     }
 
@@ -939,13 +935,7 @@ private:
         }
         g_->color("fore");
 
-        if (!p.title.empty())
-        {
-            g_->htitle(40);
-            g_->titlin(p.title.c_str(), 2);
-            g_->vkytit(p.titleGap);
-            g_->title();
-        }
+        if (!p.title.empty()) { set_title(p); }
 
         // restore color map and bar
         g_->setvlt("RAIN");
@@ -968,7 +958,7 @@ private:
         g_->scrmod("revers");
         g_->imgfmt("RGB");
         g_->setpag(page_.c_str());
-        const std::string raster_fmts = "png,gif,tiff,tif,ppm,bmp";
+        const std::string raster_fmts = "png,gif,tiff,ppm,bmp";
         // dpi for image output, 4:3
         if (raster_fmts.find(fmt) != std::string::npos) { g_->winsiz(3000, 2250); }
         if (!filepath.empty())
